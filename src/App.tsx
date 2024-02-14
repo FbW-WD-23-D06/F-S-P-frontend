@@ -5,10 +5,10 @@ import "./styles/styles_imports";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <Layout />
-  </IonApp>
-);
-
-export default App;
+export default function App() {
+  return (
+    <IonApp>
+      <Layout />
+    </IonApp>
+  );
+}
