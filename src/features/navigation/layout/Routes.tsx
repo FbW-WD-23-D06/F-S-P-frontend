@@ -1,18 +1,14 @@
 import { Route } from "react-router";
-import Posts from "../../../pages/Posts";
-import Profile from "../../../pages/Profile";
+import routes from "../routing/routes";
 
 interface RoutesProps {}
 
 export default function Routes({}: RoutesProps) {
   return (
     <>
-      <Route exact path="/profile">
-        <Profile />
-      </Route>
-      <Route exact path="/">
-        <Posts />
-      </Route>
+      {routes.map((route) => (
+        <Route key={route.path} {...route} />
+      ))}
     </>
   );
 }
