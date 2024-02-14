@@ -1,17 +1,15 @@
 import {
-  IonTabs,
+  IonIcon,
+  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonIcon,
-  IonLabel,
+  IonTabs,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { person, chatbubbleOutline } from "ionicons/icons";
-import {} from "react";
-import { Redirect, Route } from "react-router";
-import Posts from "../../../pages/Posts";
-import Profile from "../../../pages/Profile";
+import { chatbubbleOutline, person } from "ionicons/icons";
+import { Redirect } from "react-router";
+import Routes from "./Routes";
 
 interface LayoutProps {}
 
@@ -22,12 +20,7 @@ export default function Layout({}: LayoutProps) {
       {/* Redirect  to "/"" if there is not route with the curent path */}
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/">
-            <Posts />
-          </Route>
+          <Routes />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="Profile" href="/profile">
