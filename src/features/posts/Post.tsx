@@ -18,7 +18,7 @@ export default function Post({
   updatedAt,
   style,
 }: PostProps) {
-  const maxCharacters = 50;
+  const maxCharacters = 72;
   const truncateContent = (text: string, maxCharacters: number) => {
     if (text.length > maxCharacters) {
       return text.slice(0, maxCharacters) + "...";
