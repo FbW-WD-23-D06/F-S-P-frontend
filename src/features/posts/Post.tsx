@@ -29,7 +29,7 @@ export default function Post({
   const truncatedContent = truncateContent(content, maxCharacters);
 
   const formattedDate = (date: string) =>
-    format(new Date(date), "dd MMMM yyyy, hh:mm");
+    format(new Date(date), "dd MMMM yyyy, hh:mm a");
 
   return (
     <IonItem button={true} detail={false} style={style}>
@@ -39,11 +39,13 @@ export default function Post({
         <IonNote color="medium" className="ion-text-wrap">
           {truncatedContent}
         </IonNote>
-      </IonLabel>
-      <div className="metadata-end-wrapper" slot="end">
+        <br />
+        <br />
         <IonNote color="medium">
           <small>{formattedDate(updatedAt)}</small>
         </IonNote>
+      </IonLabel>
+      <div className="metadata-end-wrapper" slot="end">
         <IonIcon color="medium" icon={chevronForward}></IonIcon>
       </div>
     </IonItem>
