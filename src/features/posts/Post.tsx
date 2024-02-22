@@ -1,7 +1,7 @@
-import { IonItem, IonLabel, IonText, IonNote, IonIcon } from "@ionic/react";
+import { IonIcon, IonItem, IonLabel, IonNote, IonText } from "@ionic/react";
+import { formatDate } from "date-fns";
 import { chevronForward } from "ionicons/icons";
-import {} from "react";
-import { format } from "date-fns";
+import { truncateContent } from "../../utils/text";
 
 interface PostProps {
   title: string;
@@ -12,17 +12,7 @@ interface PostProps {
 
 export default function Post({ title, content, updatedAt, style }: PostProps) {
   const maxCharacters = 72;
-  const truncateContent = (text: string, maxCharacters: number) => {
-    if (text.length > maxCharacters) {
-      return text.slice(0, maxCharacters) + "...";
-    }
-    return text;
-  };
-
   const truncatedContent = truncateContent(content, maxCharacters);
-
-  const formattedDate = (date: string) =>
-    format(new Date(date), "dd MMMM yyyy, hh:mm a");
 
   return (
     <IonItem button={true} detail={false} style={style}>
@@ -35,7 +25,7 @@ export default function Post({ title, content, updatedAt, style }: PostProps) {
         <br />
         <br />
         <IonNote color="medium">
-          <small>{formattedDate(updatedAt)}</small>
+          <small>{formatDate(updatedAt, "dd MMMM yyyy, hh:mm a")}</small>
         </IonNote>
       </IonLabel>
       <div slot="end">
