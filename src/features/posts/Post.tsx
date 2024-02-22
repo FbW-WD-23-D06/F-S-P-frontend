@@ -6,7 +6,6 @@ import { format } from "date-fns";
 interface PostProps {
   title: string;
   content: string;
-  createdAt: string;
   updatedAt: string;
   style?: Partial<CSSStyleDeclaration>;
 }
@@ -14,7 +13,6 @@ interface PostProps {
 export default function Post({
   title,
   content,
-  createdAt,
   updatedAt,
   style,
 }: PostProps) {
