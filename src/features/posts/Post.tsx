@@ -7,10 +7,17 @@ interface PostProps {
   title: string;
   content: string;
   createdAt: string;
+  updatedAt: string;
   style?: Partial<CSSStyleDeclaration>;
 }
 
-export default function Post({ title, content, createdAt, style }: PostProps) {
+export default function Post({
+  title,
+  content,
+  createdAt,
+  updatedAt,
+  style,
+}: PostProps) {
   const maxCharacters = 50;
   const truncateContent = (text: string, maxCharacters: number) => {
     if (text.length > maxCharacters) {
@@ -35,7 +42,7 @@ export default function Post({ title, content, createdAt, style }: PostProps) {
       </IonLabel>
       <div className="metadata-end-wrapper" slot="end">
         <IonNote color="medium">
-          <small>{formattedDate(createdAt)}</small>
+          <small>{formattedDate(updatedAt)}</small>
         </IonNote>
         <IonIcon color="medium" icon={chevronForward}></IonIcon>
       </div>
