@@ -3,6 +3,7 @@ import Post from "./Post";
 import posts from "../../data/posts.json";
 
 export default function PostsList() {
+  // fetch posts data and replace the posts from the JSON file
   return (
     <IonList inset={true}>
       {posts.map((post) => (
@@ -11,3 +12,4 @@ export default function PostsList() {
     </IonList>
   );
 }
+
