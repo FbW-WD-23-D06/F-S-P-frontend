@@ -2,25 +2,30 @@ import React, { useState, useEffect } from "react";
 import { IonList, IonSpinner, IonAlert } from "@ionic/react";
 import Post from "./Post";
 import { formatDate } from "date-fns";
+import { endpoints } from "../../data/api";
 
 export default function PostsList() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const sortPostsByDescendingUpdatetAd = (posts) => {
+    return posts.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
-        const response = await fetch("http://localhost:8888/posts");
+        const response = await fetch(endpoints.getAllPosts);
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
         const data = await response.json();
-        // Sort posts by updatedAt, assuming updatedAt is a valid date string
-        data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
         setPosts(data);
       } catch (error) {
-        setError(error.message);
+        setError(error);
       } finally {
         setLoading(false);
       }
@@ -31,9 +36,10 @@ export default function PostsList() {
   return (
     <>
       {loading && <IonSpinner />}
-      {error && <IonAlert isOpen={true} message={error} />}
+      {error?.message && <IonAlert isOpen={true} message={error.message} />}
       <IonList inset={true}>
-        {posts.map((post) => (
+        {/* Sort posts by updatedAt, assuming updatedAt is a valid date string */}
+        {sortPostsByDescendingUpdatetAd(posts).map((post) => (
           <Post
             key={post._id}
             {...post}

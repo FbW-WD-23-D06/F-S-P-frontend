@@ -25,7 +25,7 @@ export default function Post({ title, content, updatedAt, style }: PostProps) {
         <br />
         <br />
         <IonNote color="medium">
-          <small>{formatDate(updatedAt, "dd MMMM yyyy, hh:mm a")}</small>
+          <small>{updatedAt}</small>
         </IonNote>
       </IonLabel>
       <div slot="end">
