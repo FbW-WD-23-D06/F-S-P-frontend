@@ -14,7 +14,7 @@ export default function PostsList() {
       setLoading(true);
       try {
         const response = await fetch(
-          `${endpoints.getAllPosts}?limit=3&sortOrder=ascending`
+          `${endpoints.getAllPosts}?limit=100&sortOrder=descending`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
