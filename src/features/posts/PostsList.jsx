@@ -9,20 +9,17 @@ export default function PostsList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sortPostsByDescendingUpdatetAd = (posts) => {
-    return posts.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-  };
-
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(endpoints.getAllPosts);
+        const response = await fetch(
+          `${endpoints.getAllPosts}?limit=3&sortOrder=ascending`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
         const data = await response.json();
-
         setPosts(data);
       } catch (error) {
         setError(error);
@@ -39,7 +36,7 @@ export default function PostsList() {
       {error?.message && <IonAlert isOpen={true} message={error.message} />}
       <IonList inset={true}>
         {/* Sort posts by updatedAt, assuming updatedAt is a valid date string */}
-        {sortPostsByDescendingUpdatetAd(posts).map((post) => (
+        {posts.map((post) => (
           <Post
             key={post._id}
             {...post}
