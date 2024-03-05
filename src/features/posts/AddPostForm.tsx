@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { endpoints } from "../../api/endpoints";
+import { endpoints } from "../../data/api";
 
 export default function AddPostForm() {
   const [tittle, setTittle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     try {
       const response = await fetch(endpoints.posts, {
@@ -22,7 +22,7 @@ export default function AddPostForm() {
 
       setTittle("");
       setContent("");
-    } catch (error) {
+    } catch (error:any) {
       setError(error.message);
     }
   };

@@ -1,6 +1,7 @@
 import Posts from "../../../pages/Posts";
 import Profile from "../../../pages/Profile";
 import { ComponentType } from "react";
+import AddPost from "../../../pages/AddPost";
 
 export interface Route {
   path: string;
@@ -13,6 +14,11 @@ const routes: Route[] = [
     path: "/profile",
     exact: true,
     component: Profile,
+  },
+  {
+    path: "/",
+    exact: true,
+    component: AddPost,
   },
   {
     path: "/",

@@ -11,8 +11,8 @@ export default function PostsList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sortPostsByDescendingUpdatetAd = (posts) => {
-    return posts.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  const sortPostsByDescendingUpdatetAd = (posts:any) => {
+    return posts.sort((a:any, b:any) => (new Date(b.updatedAt) as any) - (new Date(a.updatedAt) as any));
   };
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function PostsList() {
         const data = await response.json();
 
         setPosts(data);
-      } catch (error) {
+      } catch (error:any) {
         setError(error);
       } finally {
         setLoading(false);
@@ -38,10 +38,11 @@ export default function PostsList() {
   return (
     <>
       {loading && <IonSpinner />}
-      {error?.message && <IonAlert isOpen={true} message={error.message} />}
+      {/* @ts-ignore */}
+      {error && error.message && <IonAlert isOpen={true} message={error.message} />}
       <IonList inset={true}>
         {/* Sort posts by updatedAt, assuming updatedAt is a valid date string */}
-        {sortPostsByDescendingUpdatetAd(posts).map((post) => (
+        {sortPostsByDescendingUpdatetAd(posts).map((post:any) => (
           <Post
             key={post._id}
             {...post}
