@@ -1,3 +1,5 @@
+// pages/Profile.tsx
+
 import { IonContent, IonPage } from "@ionic/react";
 import Header from "../features/navigation/layout/Header";
 

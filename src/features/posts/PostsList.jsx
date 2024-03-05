@@ -1,3 +1,5 @@
+// posts/PostsList.jsx
+
 import React, { useState, useEffect } from "react";
 import { IonList, IonSpinner, IonAlert } from "@ionic/react";
 import Post from "./Post";
@@ -17,7 +19,7 @@ export default function PostsList() {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(endpoints.getAllPosts);
+        const response = await fetch(endpoints.posts);
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }

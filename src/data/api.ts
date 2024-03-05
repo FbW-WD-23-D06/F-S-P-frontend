@@ -1,5 +1,7 @@
+// data/api.ts
+
 const BASE_URL = "http://localhost:8888";
 
-const endpoints = { getAllPosts: `${BASE_URL}/posts` };
+const endpoints = { posts: `${BASE_URL}/posts` };
 
 export { BASE_URL, endpoints };

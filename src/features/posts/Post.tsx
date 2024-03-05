@@ -1,3 +1,5 @@
+// posts/Post.tsx
+
 import { IonIcon, IonItem, IonLabel, IonNote, IonText } from "@ionic/react";
 import { formatDate } from "date-fns";
 import { chevronForward } from "ionicons/icons";
