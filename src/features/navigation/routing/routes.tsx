@@ -16,7 +16,7 @@ const routes: Route[] = [
     component: Profile,
   },
   {
-    path: "/",
+    path: "/add-post",
     exact: true,
     component: AddPost,
   },
