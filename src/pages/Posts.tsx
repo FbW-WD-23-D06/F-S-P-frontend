@@ -22,7 +22,7 @@ export default function Posts() {
           vertical="top"
           className="ion-margin-bottom"
         >
-          <IonFabButton>
+          <IonFabButton routerLink="/add-post">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>

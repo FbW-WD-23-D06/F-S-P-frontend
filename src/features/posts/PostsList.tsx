@@ -1,6 +1,6 @@
 // posts/PostsList.jsx
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { IonList, IonSpinner, IonAlert } from "@ionic/react";
 import Post from "./Post";
 import { formatDate } from "date-fns";
