@@ -36,7 +36,9 @@ export default function PostsList() {
     <>
       {loading && <IonSpinner />}
       {/* @ts-ignore */}
-      {error && error.message &&  <IonAlert isOpen={true} message={error.message} />}
+      {error && error.message && (
+        <IonAlert isOpen={true} message={(error as Error).message} />
+      )}
       <IonList inset={true}>
         {/* Sort posts by updatedAt, assuming updatedAt is a valid date string */}
         {posts.map((post: any) => (
