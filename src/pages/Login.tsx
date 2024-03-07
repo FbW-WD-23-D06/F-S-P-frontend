@@ -7,7 +7,9 @@ export default function Login({}: LoginProps) {
   return (
     <IonPage>
       <Header title="Login" />
-      <IonContent fullscreen></IonContent>
+      <IonContent fullscreen>
+       {/* code for login here */}
+      </IonContent>
     </IonPage>
   );
 }

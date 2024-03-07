@@ -8,7 +8,9 @@ export default function Register({}: RegisterProps) {
   return (
     <IonPage>
       <Header title="Register" />
-      <IonContent fullscreen></IonContent>
+      <IonContent fullscreen>
+         {/* code for register here */}
+      </IonContent>
     </IonPage>
   );
 }
