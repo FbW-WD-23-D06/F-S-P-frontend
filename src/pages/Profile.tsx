@@ -8,6 +8,7 @@ import {
 } from "@ionic/react";
 import Header from "../features/navigation/layout/Header";
 import { logInOutline } from "ionicons/icons";
+import { paths } from "../features/navigation/routing/paths";
 
 export default function Profile() {
   return (
@@ -15,11 +16,11 @@ export default function Profile() {
       <Header title="Profile" />
       <IonContent fullscreen>
         <IonList>
-          <IonItem button routerLink="/register">
+          <IonItem button routerLink={paths.register}>
             <IonIcon icon={logInOutline} slot="start"></IonIcon>
             <IonLabel>Register</IonLabel>
           </IonItem>
-          <IonItem button routerLink="/login">
+          <IonItem button routerLink={paths.login}>
             <IonIcon icon={logInOutline} slot="start"></IonIcon>
             <IonLabel>Login</IonLabel>
           </IonItem>
