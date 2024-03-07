@@ -16,7 +16,7 @@ interface LayoutProps {}
 export default function Layout({}: LayoutProps) {
   return (
     <IonReactRouter>
-      {/* <Redirect from="*" to="/" /> */}
+      <Redirect from="*" to="/" />
       {/* Redirect  to "/"" if there is not route with the curent path */}
       <IonTabs>
         <IonRouterOutlet>
