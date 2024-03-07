@@ -6,7 +6,9 @@ import {
   IonButton,
   IonItem,
   IonLabel,
+  IonSpinner,
 } from "@ionic/react";
+
 import Header from "../features/navigation/layout/Header";
 import { endpoints } from "../data/api";
 
@@ -15,9 +17,13 @@ interface RegisterProps {}
 export default function Register({}: RegisterProps) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  console.log("loading", loading);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     // Hier würdest du deine Registrierungslogik implementieren,
     // z.B. einen API-Aufruf, um den Benutzer zu registrieren.
     console.log({ userName, password }, typeof userName);
@@ -28,6 +34,8 @@ export default function Register({}: RegisterProps) {
     } catch (error) {
       console.error("Fehler bei der Registrierung:", error);
       // Handle errors, e.g., show an error message to the user
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +44,7 @@ export default function Register({}: RegisterProps) {
       userName,
       password,
     };
+
     const response = await fetch(endpoints.register, {
       method: "POST",
       headers: {
@@ -68,8 +77,9 @@ export default function Register({}: RegisterProps) {
               clearInput
             ></IonInput>
           </IonItem>
+
           <IonButton type="submit" expand="block" style={{ marginTop: 20 }}>
-            Registrieren
+            {loading ? <IonSpinner /> : "Register"}
           </IonButton>
         </form>
       </IonContent>
