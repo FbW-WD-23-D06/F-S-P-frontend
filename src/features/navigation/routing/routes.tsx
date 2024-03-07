@@ -3,6 +3,7 @@ import Posts from "../../../pages/Posts";
 import Profile from "../../../pages/Profile";
 import { ComponentType } from "react";
 import Register from "../../../pages/Register";
+import { paths } from "./paths";
 
 export interface Route {
   path: string;
@@ -12,22 +13,22 @@ export interface Route {
 
 const routes: Route[] = [
   {
-    path: "/profile",
+    path: paths.profile,
     exact: true,
     component: Profile,
   },
   {
-    path: "/register",
+    path: paths.register,
     exact: true,
     component: Register,
   },
   {
-    path: "/login",
+    path: paths.login,
     exact: true,
     component: Login,
   },
   {
-    path: "/",
+    path: paths.posts,
     exact: true,
     component: Posts,
   },
