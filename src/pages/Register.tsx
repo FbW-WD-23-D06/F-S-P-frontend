@@ -14,13 +14,11 @@ interface RegisterProps {}
 export default function Register({}: RegisterProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    // Hier würdest du deine Registrierungslogik implementieren,
-    // z.B. einen API-Aufruf, um den Benutzer zu registrieren.
-    console.log({ username, password, email });
+
+    console.log({ username, password });
   };
 
   return (
@@ -36,15 +34,7 @@ export default function Register({}: RegisterProps) {
               clearInput
             ></IonInput>
           </IonItem>
-          <IonItem>
-            <IonLabel position="floating">E-Mail</IonLabel>
-            <IonInput
-              type="email"
-              value={email}
-              onIonChange={(e) => setEmail(e.detail.value!)}
-              clearInput
-            ></IonInput>
-          </IonItem>
+
           <IonItem>
             <IonLabel position="floating">Passwort</IonLabel>
             <IonInput
