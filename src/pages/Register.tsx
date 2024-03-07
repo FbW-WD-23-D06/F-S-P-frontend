@@ -12,10 +12,10 @@ import Header from "../features/navigation/layout/Header";
 interface RegisterProps {}
 
 export default function Register({}: RegisterProps) {
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     console.log({ username, password });
@@ -29,12 +29,11 @@ export default function Register({}: RegisterProps) {
           <IonItem>
             <IonLabel position="floating">Benutzername</IonLabel>
             <IonInput
-              value={username}
+              value={userName}
               onIonChange={(e) => setUsername(e.detail.value!)}
               clearInput
             ></IonInput>
           </IonItem>
-
           <IonItem>
             <IonLabel position="floating">Passwort</IonLabel>
             <IonInput
