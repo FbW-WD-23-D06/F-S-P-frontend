@@ -8,9 +8,7 @@ import {
 } from "@ionic/react";
 import Header from "../features/navigation/layout/Header";
 import { logInOutline } from "ionicons/icons";
-{
-  /* <ion-icon name="log-in-outline"></ion-icon> */
-}
+
 export default function Profile() {
   return (
     <IonPage>
