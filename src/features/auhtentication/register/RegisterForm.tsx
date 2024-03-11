@@ -1,46 +1,73 @@
 import {
+  IonButton,
+  IonInput,
   IonItem,
   IonLabel,
-  IonInput,
-  IonButton,
   IonSpinner,
 } from "@ionic/react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { endpoints } from "../../../data/api";
+import { ToastInfo } from "../../../hooks/useToastManager";
 
-export default function RegisterForm() {
+interface RegisterFormProps {
+  setToastInfo: (toastInfo: ToastInfo) => void;
+  isToastVisible: boolean;
+}
+
+export default function RegisterForm({
+  setToastInfo,
+  isToastVisible,
+}: RegisterFormProps) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const postUser = async () => {
-    const data = {
+  const registerUser = async () => {
+    const newUser = {
       userName,
       password,
     };
-    try {
-      const response = await fetch(endpoints.register, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error();
-      return response.json();
-    } catch (error) {
-      console.error("Post user error :", error);
+    console.log("newUser:", newUser);
+    const response = await fetch(endpoints.register, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    const data = await response.json();
+    console.log("🚀 ~ registerUser ~ data:", data);
+    if (!response.ok) {
+      throw new Error(
+        data.errors?.error?.message ||
+          data.message ||
+          "Registration failed due to an error."
+      );
     }
+    return data;
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null); // Reset the error state on each attempt
     try {
-      const response = await postUser();
-        console.log(response);
-    } catch (error) {
-      console.error("Handle register user error :", error);
+      const response = await registerUser();
+      console.log("response:", response);
+      setToastInfo({
+        message: "Registration successful!",
+        color: "success",
+        duration: 3000,
+      });
+    } catch (err: any) {
+      console.error("Register user error:", err);
+      setToastInfo({
+        message: "Registration failed",
+        color: "danger",
+        duration: 3000,
+        buttons: "dismiss",
+      });
     } finally {
       setLoading(false);
     }
@@ -52,7 +79,7 @@ export default function RegisterForm() {
         <IonLabel position="floating">User Name</IonLabel>
         <IonInput
           value={userName}
-          onIonChange={(e) => setUsername(e.detail.value!)}
+          onIonInput={(e) => setUsername(e.detail.value!)}
           clearInput
         ></IonInput>
       </IonItem>
@@ -61,12 +88,16 @@ export default function RegisterForm() {
         <IonInput
           type="password"
           value={password}
-          onIonChange={(e) => setPassword(e.detail.value!)}
+          onIonInput={(e) => setPassword(e.detail.value!)}
           clearInput
         ></IonInput>
       </IonItem>
-
-      <IonButton type="submit" expand="block" style={{ marginTop: 20 }}>
+      <IonButton
+        disabled={isToastVisible || loading}
+        type="submit"
+        expand="block"
+        style={{ marginTop: 20 }}
+      >
         {loading ? <IonSpinner /> : "Register"}
       </IonButton>
     </form>
