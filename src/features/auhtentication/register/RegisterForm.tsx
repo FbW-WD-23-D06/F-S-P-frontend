@@ -21,14 +21,12 @@ export default function RegisterForm({
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const registerUser = async () => {
     const newUser = {
       userName,
       password,
     };
-    console.log("newUser:", newUser);
     const response = await fetch(endpoints.register, {
       method: "POST",
       headers: {
@@ -51,7 +49,6 @@ export default function RegisterForm({
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null); // Reset the error state on each attempt
     try {
       const response = await registerUser();
       console.log("response:", response);
