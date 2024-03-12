@@ -11,6 +11,7 @@ import useToastManager, { ToastInfo } from "../../hooks/useToastManager";
 import { validations } from "./validations";
 import { endpoints } from "../../data/api";
 import { useAppContext } from "../../contexts/AppContext";
+import { set } from "date-fns";
 
 interface AuthFormProps {
   authType: "register" | "login";
@@ -34,6 +35,15 @@ export default function AuthForm({ authType }: AuthFormProps) {
   const { dispatchUser } = useAppContext();
 
   useToastManager({ toastInfo, setToastInfo, setIsToastVisible });
+
+  const successSendAction = () => {
+    setUsername("");
+    setPassword("");
+    setErrorMessage({
+      userName: "",
+      password: "",
+    });
+  };
 
   const isUserNameValid = validations.userName(userName) === "valid";
   const isPasswordValid = validations.password(password) === "valid";
@@ -76,6 +86,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
         dispatchUser({ type: "login", field: "userName", value: userName });
         localStorage.setItem("token", data.token);
       }
+      successSendAction();
       return data;
     } catch (error) {
       console.error("🚀 ~ authentication ~ error:", error);
