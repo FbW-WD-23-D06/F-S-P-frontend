@@ -20,8 +20,8 @@ export default function Layout({}: LayoutProps) {
 
   return (
     <>
-      <Redirect from="*" to={paths.posts} />
       {/* Redirect  to paths.posts if there is not route with the curent path */}
+      {/* <Redirect from="*" to={paths.posts} /> */}
       <IonTabs>
         <IonRouterOutlet>
           <Routes />
