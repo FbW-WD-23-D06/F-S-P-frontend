@@ -6,9 +6,10 @@ import {
   IonNote,
   IonSpinner,
 } from "@ionic/react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { endpoints } from "../../../data/api";
 import { ToastInfo } from "../../../hooks/useToastManager";
+import { validations } from "../validations";
 
 interface RegisterFormProps {
   setToastInfo: (toastInfo: ToastInfo) => void;
@@ -27,13 +28,41 @@ export default function RegisterForm({
     password: "",
   });
 
+  useEffect(() => {
+    const userNameValidation = validations.userName(userName);
+    const passwordValidation = validations.password(password);
+
+    if (validations.userName(userName) === "valid") {
+      setError((prev) => ({
+        ...prev,
+        userName: "",
+      }));
+    } else {
+      setError((prev) => ({
+        ...prev,
+        userName: validations.userName(userName),
+      }));
+    }
+    if (validations.password(password) === "valid") {
+      setError((prev) => ({
+        ...prev,
+        password: "",
+      }));
+    }
+    if (validations.password(password) !== "valid") {
+      setError((prev) => ({
+        ...prev,
+        password: validations.password(password),
+      }));
+    }
+  }, [userName, password]);
+
   const registerUser = async () => {
     const newUser = {
       userName,
       password,
     };
 
-    // block
     const response = await fetch(endpoints.register, {
       method: "POST",
       headers: {
@@ -41,29 +70,15 @@ export default function RegisterForm({
       },
       body: JSON.stringify(newUser),
     });
+
     const data = await response.json();
     console.log("🚀 ~ registerUser ~ data:", data);
     console.log("data.error:", data.error?.errors[0]);
+
     if (!response.ok) {
       const inputTypeErrors = data.error?.errors;
-      if (inputTypeErrors) {
-        inputTypeErrors.forEach((inputTypeError: any) => {
-          if (inputTypeError["password"]) {
-            setError((prev) => ({
-              ...prev,
-              password: inputTypeError.password,
-            }));
-          }
-          if (inputTypeError["userName"]) {
-            setError((prev) => ({
-              ...prev,
-              userName: inputTypeError.userName,
-            }));
-          }
-        });
-      }
       throw new Error(
-        JSON.stringify(data.error.errors) ||
+        JSON.stringify(inputTypeErrors) ||
           data.error.message ||
           "Registration failed."
       );
@@ -84,7 +99,7 @@ export default function RegisterForm({
     } catch (err: any) {
       console.error("Register user error:", err);
       setToastInfo({
-        message: "Registration failed",
+        message: err,
         color: "danger",
         duration: 3000,
         buttons: "dismiss",
@@ -92,6 +107,24 @@ export default function RegisterForm({
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleUserNameChange = (e: CustomEvent) => {
+    setUsername(e.detail.value);
+    const userNameValidation = validations.userName(userName);
+    setError((prev) => ({
+      ...prev,
+      userName: userNameValidation,
+    }));
+  };
+
+  const handlePasswordChange = (e: CustomEvent) => {
+    setPassword(e.detail.value);
+    const passwordValidation = validations.password(password);
+    setError((prev) => ({
+      ...prev,
+      password: passwordValidation,
+    }));
   };
 
   return (
@@ -102,11 +135,14 @@ export default function RegisterForm({
           aria-label="User Name"
           className={``}
           value={userName}
-          onIonInput={(e) => setUsername(e.detail.value!)}
+          onIonInput={handleUserNameChange}
           clearInput
           minlength={2}
+          counter
         ></IonInput>
-        {error.userName && <IonNote color="danger">{error.userName}</IonNote>}
+        {error.userName && error.userName !== "valid" && (
+          <IonNote color="danger">{error.userName}</IonNote>
+        )}
       </IonItem>
       <IonItem>
         <IonLabel position="floating">Password</IonLabel>
@@ -115,11 +151,13 @@ export default function RegisterForm({
           className={``}
           type="password"
           value={password}
-          onIonInput={(e) => setPassword(e.detail.value!)}
+          onIonInput={handlePasswordChange}
           clearInput
           minlength={8}
         ></IonInput>
-        {error.password && <IonNote color="danger">{error.password}</IonNote>}
+        {error.password && error.password !== "valid" && (
+          <IonNote color="danger">{error.password}</IonNote>
+        )}
       </IonItem>
       <IonButton
         disabled={isToastVisible || loading}
