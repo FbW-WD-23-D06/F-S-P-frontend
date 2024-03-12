@@ -1,6 +1,5 @@
 interface UserState {
   userName: string | null;
-  password: string | null;
   isLoggedIn: boolean;
 }
 

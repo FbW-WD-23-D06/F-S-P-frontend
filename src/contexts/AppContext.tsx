@@ -12,7 +12,6 @@ import UserReducer, {
 
 const initialState = {
   userName: null,
-  password: null,
   isLoggedIn: false,
 };
 
