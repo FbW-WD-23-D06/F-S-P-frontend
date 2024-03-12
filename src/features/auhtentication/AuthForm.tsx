@@ -7,21 +7,16 @@ import {
   IonSpinner,
 } from "@ionic/react";
 import { FormEvent, useState } from "react";
-import { ToastInfo } from "../../hooks/useToastManager";
+import useToastManager, { ToastInfo } from "../../hooks/useToastManager";
 import { validations } from "./validations";
 import { endpoints } from "../../data/api";
+import { useAppContext } from "../../contexts/AppContext";
 
 interface AuthFormProps {
   authType: "register" | "login";
-  setToastInfo: (toastInfo: ToastInfo) => void;
-  isToastVisible: boolean;
 }
 
-export default function AuthForm({
-  authType,
-  setToastInfo,
-  isToastVisible,
-}: AuthFormProps) {
+export default function AuthForm({ authType }: AuthFormProps) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,10 +25,22 @@ export default function AuthForm({
     password: "",
   });
 
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastInfo, setToastInfo] = useState<ToastInfo>({
+    message: "",
+    color: "",
+  });
+
+  const { dispatchUser } = useAppContext();
+
+  useToastManager({ toastInfo, setToastInfo, setIsToastVisible });
+
   const isUserNameValid = validations.userName(userName) === "valid";
   const isPasswordValid = validations.password(password) === "valid";
 
   const isRegister = authType === "register";
+  const isLogin = authType === "login";
+
   const buttonText = isRegister ? "Register" : "Login";
 
   const registerUser = async () => {
@@ -65,7 +72,10 @@ export default function AuthForm({
           data.error?.message || data?.message || failedMessages[authType]
         );
       }
-
+      if (isLogin) {
+        dispatchUser({ type: "login", field: "userName", value: userName });
+        localStorage.setItem("token", data.token);
+      }
       return data;
     } catch (error) {
       console.error("🚀 ~ authentication ~ error:", error);
