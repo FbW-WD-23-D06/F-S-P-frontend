@@ -1,4 +1,4 @@
-const validation = {
+const validations = {
   userName: (userName: string) => {
     if (
       typeof userName !== "string" ||
@@ -10,7 +10,7 @@ const validation = {
           "The user name is required and must contain at least 2 and max. 15 characters.",
       };
     }
-    return true;
+    return "valid";
   },
   password: (password: string) => {
     const passwordRegex =
@@ -21,8 +21,8 @@ const validation = {
           "The password must contain at least 1 number, 1 lowercase and uppercase character, one special character and be at least 8 characters long.",
       };
     }
-    return true;
+    return "valid";
   },
 };
 
-export default validation;
+export default validations;
