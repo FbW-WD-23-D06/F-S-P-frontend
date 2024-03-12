@@ -43,7 +43,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
 
   const buttonText = isRegister ? "Register" : "Login";
 
-  const registerUser = async () => {
+  const authUser = async () => {
     const user = {
       userName,
       password,
@@ -87,7 +87,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
     e.preventDefault();
     setLoading(true);
     try {
-      await registerUser();
+      await authUser();
       setToastInfo({
         message: `${isRegister ? "Registration" : "Login"} successful!`,
         color: "success",
