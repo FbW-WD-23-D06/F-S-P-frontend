@@ -99,6 +99,7 @@ export default function RegisterForm({
       <IonItem>
         <IonLabel position="floating">User Name</IonLabel>
         <IonInput
+          aria-label="User Name"
           className={``}
           value={userName}
           onIonInput={(e) => setUsername(e.detail.value!)}
@@ -110,6 +111,7 @@ export default function RegisterForm({
       <IonItem>
         <IonLabel position="floating">Password</IonLabel>
         <IonInput
+          aria-label="Password"
           className={``}
           type="password"
           value={password}
