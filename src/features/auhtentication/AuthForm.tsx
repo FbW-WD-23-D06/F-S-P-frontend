@@ -107,8 +107,9 @@ export default function AuthForm({ authType }: AuthFormProps) {
   };
 
   const handleUserNameChange = (e: CustomEvent) => {
-    setUsername(e.detail.value);
-    const userNameValidation = validations.userName(userName);
+    const newUserName = e.detail.value;
+    setUsername(newUserName);
+    const userNameValidation = validations.userName(newUserName);
     setErrorMessage((prev) => ({
       ...prev,
       userName: userNameValidation,
@@ -116,8 +117,9 @@ export default function AuthForm({ authType }: AuthFormProps) {
   };
 
   const handlePasswordChange = (e: CustomEvent) => {
-    setPassword(e.detail.value);
-    const passwordValidation = validations.password(password);
+    const newPassword = e.detail.value;
+    setPassword(newPassword);
+    const passwordValidation = validations.password(newPassword);
     setErrorMessage((prev) => ({
       ...prev,
       password: passwordValidation,
@@ -136,7 +138,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
           minlength={2}
           counter
         />
-        {!isUserNameValid && (
+        {errorMessage.userName !== "" && !isUserNameValid && (
           <IonNote color="danger">{errorMessage.userName}</IonNote>
         )}
       </IonItem>
@@ -150,7 +152,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
           clearInput
           minlength={8}
         />
-        {!isPasswordValid && (
+        {errorMessage.password !== "" && !isPasswordValid && (
           <IonNote color="danger">{errorMessage.password}</IonNote>
         )}
       </IonItem>
