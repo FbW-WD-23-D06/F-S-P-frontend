@@ -1,14 +1,13 @@
 import { IonPage, IonContent } from "@ionic/react";
 import Header from "../features/navigation/layout/Header";
+import AuthForm from "../features/auhtentication/AuthForm";
 
-interface LoginProps {}
-
-export default function Login({}: LoginProps) {
+export default function Login() {
   return (
     <IonPage>
       <Header title="Login" />
       <IonContent fullscreen>
-       {/* code for login here */}
+        <AuthForm authType="login" />
       </IonContent>
     </IonPage>
   );
