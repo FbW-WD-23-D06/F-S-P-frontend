@@ -1,8 +1,8 @@
 import { IonContent, IonPage } from "@ionic/react";
 import { useState } from "react";
-import RegisterForm from "../features/auhtentication/register/RegisterForm";
 import Header from "../features/navigation/layout/Header";
 import useToastManager, { ToastInfo } from "../hooks/useToastManager";
+import AuthForm from "../features/auhtentication/AuthForm";
 
 export default function Register() {
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -17,7 +17,8 @@ export default function Register() {
     <IonPage>
       <Header title="Register" />
       <IonContent fullscreen>
-        <RegisterForm
+        <AuthForm
+          authType="register"
           setToastInfo={setToastInfo}
           isToastVisible={isToastVisible}
         />

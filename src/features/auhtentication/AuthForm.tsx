@@ -7,19 +7,21 @@ import {
   IonSpinner,
 } from "@ionic/react";
 import { FormEvent, useState } from "react";
-import { endpoints } from "../../../data/api";
-import { ToastInfo } from "../../../hooks/useToastManager";
-import { validations } from "../validations";
+import { ToastInfo } from "../../hooks/useToastManager";
+import { validations } from "./validations";
+import { endpoints } from "../../data/api";
 
-interface RegisterFormProps {
+interface AuthFormProps {
+  authType: "register" | "login";
   setToastInfo: (toastInfo: ToastInfo) => void;
   isToastVisible: boolean;
 }
 
-export default function RegisterForm({
+export default function AuthForm({
+  authType,
   setToastInfo,
   isToastVisible,
-}: RegisterFormProps) {
+}: AuthFormProps) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,31 +33,42 @@ export default function RegisterForm({
   const isUserNameValid = validations.userName(userName) === "valid";
   const isPasswordValid = validations.password(password) === "valid";
 
+  const isRegister = authType === "register";
+  const buttonText = isRegister ? "Register" : "Login";
+
   const registerUser = async () => {
-    const newUser = {
+    const user = {
       userName,
       password,
     };
 
+    const failedMessages = {
+      login: "Login failed.",
+      register: "Registration failed.",
+    };
+
     try {
-      const response = await fetch(endpoints.register, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+      const response = await fetch(
+        isRegister ? endpoints.register : endpoints.login,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
 
       const data = await response.json();
       if (!response.ok) {
         throw new Error(
-          data.error?.message || data?.message || "Registration failed."
+          data.error?.message || data?.message || failedMessages[authType]
         );
       }
 
       return data;
     } catch (error) {
-      console.error("🚀 ~ registerUser ~ error:", error);
+      console.error("🚀 ~ authentication ~ error:", error);
       throw error;
     }
   };
@@ -66,7 +79,7 @@ export default function RegisterForm({
     try {
       await registerUser();
       setToastInfo({
-        message: "Registration successful!",
+        message: `${isRegister ? "Registration" : "Login"} successful!`,
         color: "success",
         duration: 3000,
       });
@@ -113,7 +126,7 @@ export default function RegisterForm({
           minlength={2}
           counter
         />
-        {errorMessage.userName && !isUserNameValid && (
+        {!isUserNameValid && (
           <IonNote color="danger">{errorMessage.userName}</IonNote>
         )}
       </IonItem>
@@ -127,7 +140,7 @@ export default function RegisterForm({
           clearInput
           minlength={8}
         />
-        {errorMessage.password && !isPasswordValid && (
+        {!isPasswordValid && (
           <IonNote color="danger">{errorMessage.password}</IonNote>
         )}
       </IonItem>
@@ -139,7 +152,7 @@ export default function RegisterForm({
         expand="block"
         style={{ marginTop: 20 }}
       >
-        {loading ? <IonSpinner /> : "Register"}
+        {loading ? <IonSpinner /> : buttonText}
       </IonButton>
     </form>
   );
