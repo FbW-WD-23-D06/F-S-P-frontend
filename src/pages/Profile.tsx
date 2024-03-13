@@ -13,7 +13,7 @@ import { paths } from "../features/navigation/routing/paths";
 import { useAppContext } from "../contexts/AppContext";
 import { useEffect } from "react";
 import { useHistory } from "react-router";
-import { endpoints } from "../data/api";
+import { BASE_URL } from "../data/api";
 
 export default function Profile() {
   const { userState } = useAppContext();
@@ -28,7 +28,7 @@ export default function Profile() {
           return history.push(paths.login);
         }
         const tokenRes = await fetch(
-         `${endpoints}/users/token-valid`,
+         `${BASE_URL}/users/token-valid`,
           {
             method: "POST",
             headers: {
