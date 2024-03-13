@@ -11,7 +11,6 @@ import useToastManager, { ToastInfo } from "../../hooks/useToastManager";
 import { validations } from "./validations";
 import { endpoints } from "../../data/api";
 import { useAppContext } from "../../contexts/AppContext";
-import { set } from "date-fns";
 
 interface AuthFormProps {
   authType: "register" | "login";
@@ -64,21 +63,26 @@ export default function AuthForm({ authType }: AuthFormProps) {
       register: "Registration failed.",
     };
 
+    const basicHeaders = {
+      "Content-Type": "application/json",
+    };
+
+    const loginHeaders = {
+      ...basicHeaders,
+      "auth-token": localStorage.getItem("token") || "",
+    };
+
     try {
       const response = await fetch(
         isRegister ? endpoints.register : endpoints.login,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("token") || "",
-          },
+          headers: isRegister ? basicHeaders : loginHeaders,
           body: JSON.stringify(user),
         }
       );
 
       const data = await response.json();
-      console.log("🚀 ~ authUser ~ data:", data)
       if (!response.ok) {
         throw new Error(
           data.error?.message || data?.message || failedMessages[authType]
@@ -111,7 +115,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       setToastInfo({
         message: err.message,
         color: "danger",
-        duration: 3000,
+        duration: 10000,
         buttons: "dismiss",
       });
     } finally {
@@ -144,11 +148,11 @@ export default function AuthForm({ authType }: AuthFormProps) {
       <IonItem>
         <IonLabel position="floating">User Name</IonLabel>
         <IonInput
-          aria-label="User Name"
           value={userName}
           onIonInput={handleUserNameChange}
           clearInput
           minlength={2}
+          maxlength={15}
           counter
         />
         {errorMessage.userName !== "" && !isUserNameValid && (
@@ -158,7 +162,6 @@ export default function AuthForm({ authType }: AuthFormProps) {
       <IonItem>
         <IonLabel position="floating">Password</IonLabel>
         <IonInput
-          aria-label="Password"
           type="password"
           value={password}
           onIonInput={handlePasswordChange}
@@ -171,7 +174,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       </IonItem>
       <IonButton
         disabled={
-          isToastVisible || loading || !isUserNameValid || !isPasswordValid
+          isToastVisible || loading || !isUserNameValid /*|| !isPasswordValid*/
         }
         type="submit"
         expand="block"
