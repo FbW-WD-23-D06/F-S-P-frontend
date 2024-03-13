@@ -100,7 +100,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
     }
   };
 
-  const handleRegister = async (e: FormEvent) => {
+  const hanldeAuthentication = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -144,7 +144,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
   };
 
   return (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={hanldeAuthentication}>
       <IonItem>
         <IonLabel position="floating">User Name</IonLabel>
         <IonInput
