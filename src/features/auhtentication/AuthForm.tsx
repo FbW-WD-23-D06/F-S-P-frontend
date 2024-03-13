@@ -71,20 +71,22 @@ export default function AuthForm({ authType }: AuthFormProps) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token") || "",
           },
           body: JSON.stringify(user),
         }
       );
 
       const data = await response.json();
+      console.log("🚀 ~ authUser ~ data:", data)
       if (!response.ok) {
         throw new Error(
           data.error?.message || data?.message || failedMessages[authType]
         );
       }
       if (isLogin) {
-        dispatchUser({ type: "login", field: "userName", value: userName });
         localStorage.setItem("token", data.token);
+        dispatchUser({ type: "login", field: "userName", value: userName });
       }
       successSendAction();
       return data;
