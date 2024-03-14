@@ -28,6 +28,11 @@ const routes: Route[] = [
     component: Login,
   },
   {
+    path: paths.logout,
+    exact: true,
+    component: Login,
+  },
+  {
     path: paths.posts,
     exact: true,
     component: Posts,

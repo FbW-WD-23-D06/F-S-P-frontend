@@ -14,6 +14,7 @@ import { useAppContext } from "../contexts/AppContext";
 
 export default function Profile() {
   const { userState } = useAppContext();
+  console.log(userState.isLoggedIn);
 
   return (
     <IonPage>
@@ -27,10 +28,17 @@ export default function Profile() {
             <IonIcon icon={personAdd} slot="start" />
             <IonLabel>Register</IonLabel>
           </IonItem>
-          <IonItem button routerLink={paths.login}>
-            <IonIcon icon={logInOutline} slot="start" />
-            <IonLabel>Login</IonLabel>
-          </IonItem>
+          { userState.isLoggedIn ?
+            <IonItem button routerLink={paths.logout}>
+              <IonIcon icon={logInOutline} slot="start" />
+              <IonLabel>Logout</IonLabel>
+            </IonItem>
+            :
+            <IonItem button routerLink={paths.login}>
+              <IonIcon icon={logInOutline} slot="start" />
+              <IonLabel>Login</IonLabel>
+            </IonItem>
+          }
         </IonList>
       </IonContent>
     </IonPage>

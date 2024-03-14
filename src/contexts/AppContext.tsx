@@ -10,7 +10,7 @@ import UserReducer, {
   UserState,
 } from "../features/auhtentication/userReducer";
 
-const initialState = {
+export const initialState = {
   userName: "",
   isLoggedIn: false,
 };

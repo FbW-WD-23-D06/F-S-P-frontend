@@ -1,3 +1,4 @@
+import { initialState } from "../../contexts/AppContext";
 interface UserState {
   userName: string;
   isLoggedIn: boolean;
@@ -25,6 +26,10 @@ export default function UserReducer(state: UserState, action: UserAction) {
         // set username:
         [action.field]: action.value,
         isLoggedIn: true,
+      };
+    case "logout":
+      return {
+        ...initialState,
       };
     case "fetch-user-data":
       const newState = action.value;
