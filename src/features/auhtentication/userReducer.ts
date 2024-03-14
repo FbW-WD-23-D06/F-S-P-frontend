@@ -10,12 +10,16 @@ interface Login {
   value: string;
 }
 
+interface Logout {
+  type: "logout";
+}
+
 interface FetchuserData {
   type: "fetch-user-data";
   value: UserState;
 }
 
-type UserAction = Login | FetchuserData;
+type UserAction = Login | Logout | FetchuserData;
 
 export default function UserReducer(state: UserState, action: UserAction) {
   console.log(action);

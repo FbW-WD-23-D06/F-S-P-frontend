@@ -3,7 +3,6 @@ const paths = {
   profile: "/profile",
   register: "/register",
   login: "/login",
-  logout: "/logout",
 };
 
 export { paths };
