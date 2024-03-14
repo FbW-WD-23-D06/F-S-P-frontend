@@ -21,7 +21,7 @@ export default function PostsList() {
         }
         const data = await response.json();
         setPosts(data);
-      } catch (error) {
+      } catch (error: any) {
         setError(error);
       } finally {
         setLoading(false);
@@ -33,10 +33,11 @@ export default function PostsList() {
   return (
     <>
       {loading && <IonSpinner />}
+      {/* @ts-ignore */}
       {error?.message && <IonAlert isOpen={true} message={error.message} />}
       <IonList inset={true}>
         {/* Sort posts by updatedAt, assuming updatedAt is a valid date string */}
-        {posts.map((post) => (
+        {posts.map((post:any) => (
           <Post
             key={post._id}
             {...post}

@@ -12,6 +12,7 @@ import { validations } from "./validations";
 import { endpoints } from "../../data/api";
 import { useAppContext } from "../../contexts/AppContext";
 import axios from "axios";
+import { log } from "util";
 
 interface AuthFormProps {
   authType: "register" | "login";
@@ -64,13 +65,15 @@ export default function AuthForm({ authType }: AuthFormProps) {
       register: "Registration failed.",
     };
 
+    const loginHeaders = {
+      withCredentials: true,
+    };
+
     try {
       const response = await axios.post(
         isRegister ? endpoints.register : endpoints.login,
         user,
-        {
-          withCredentials: true,
-        }
+        isRegister ? {} : loginHeaders
       );
 
       const data = await response.data;
@@ -91,7 +94,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
     }
   };
 
-  const handleRegister = async (e: FormEvent) => {
+  const hanldeAuthentication = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -106,7 +109,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       setToastInfo({
         message: err.message,
         color: "danger",
-        duration: 3000,
+        duration: 10000,
         buttons: "dismiss",
       });
     } finally {
@@ -135,15 +138,15 @@ export default function AuthForm({ authType }: AuthFormProps) {
   };
 
   return (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={hanldeAuthentication}>
       <IonItem>
         <IonLabel position="floating">User Name</IonLabel>
         <IonInput
-          aria-label="User Name"
           value={userName}
           onIonInput={handleUserNameChange}
           clearInput
           minlength={2}
+          maxlength={15}
           counter
         />
         {errorMessage.userName !== "" && !isUserNameValid && (
@@ -153,7 +156,6 @@ export default function AuthForm({ authType }: AuthFormProps) {
       <IonItem>
         <IonLabel position="floating">Password</IonLabel>
         <IonInput
-          aria-label="Password"
           type="password"
           value={password}
           onIonInput={handlePasswordChange}
@@ -166,7 +168,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       </IonItem>
       <IonButton
         disabled={
-          isToastVisible || loading || !isUserNameValid || !isPasswordValid
+          isToastVisible || loading || !isUserNameValid /*|| !isPasswordValid*/
         }
         type="submit"
         expand="block"
