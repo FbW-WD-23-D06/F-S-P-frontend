@@ -11,7 +11,7 @@ import useToastManager, { ToastInfo } from "../../hooks/useToastManager";
 import { validations } from "./validations";
 import { endpoints } from "../../data/api";
 import { useAppContext } from "../../contexts/AppContext";
-import { set } from "date-fns";
+import axios from "axios";
 
 interface AuthFormProps {
   authType: "register" | "login";
@@ -65,27 +65,22 @@ export default function AuthForm({ authType }: AuthFormProps) {
     };
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         isRegister ? endpoints.register : endpoints.login,
+        user,
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("token") || "",
-          },
-          body: JSON.stringify(user),
+          withCredentials: true,
         }
       );
 
-      const data = await response.json();
-      console.log("🚀 ~ authUser ~ data:", data)
-      if (!response.ok) {
+      const data = await response.data;
+      console.log("🚀 ~ authUser ~ data:", data);
+      if (response.status !== 200) {
         throw new Error(
           data.error?.message || data?.message || failedMessages[authType]
         );
       }
       if (isLogin) {
-        localStorage.setItem("token", data.token);
         dispatchUser({ type: "login", field: "userName", value: userName });
       }
       successSendAction();
