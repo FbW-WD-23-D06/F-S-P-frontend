@@ -78,13 +78,14 @@ export default function AuthForm({ authType }: AuthFormProps) {
 
       const data = await response.data;
       console.log("🚀 ~ authUser ~ data:", data);
+      console.log('response.status:',response.status);
       if (response.status !== 200) {
         throw new Error(
           data.error?.message || data?.message || failedMessages[authType]
         );
       }
       if (isLogin) {
-        dispatchUser({ type: "login", field: "userName", value: userName });
+        dispatchUser({ type: "fetch-user-data", value: data.user });
       }
       successSendAction();
       return data;

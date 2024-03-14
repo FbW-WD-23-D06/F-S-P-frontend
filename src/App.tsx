@@ -19,7 +19,7 @@ export default function App() {
         const response = await axios.get(endpoints.getAuthUserData, {
           withCredentials: true,
         });
-        const userData = response.data.user;
+        const userData = response.data;
         console.log("🚀 ~ fetchUserData ~ userData:", userData);
         dispatchUser({ type: "fetch-user-data", value: userData });
       } catch (err) {
