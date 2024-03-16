@@ -11,9 +11,12 @@ import { useAppContext } from "./contexts/AppContext";
 setupIonicReact();
 
 export default function App() {
-  const { dispatchUser } = useAppContext();
+  const { dispatchUser, userState } = useAppContext();
 
   useEffect(() => {
+    if (!userState.isLoggedIn) {
+      return;
+    }
     const fetchUserData = async () => {
       try {
         const response = await axios.get(endpoints.getAuthUserData, {
@@ -26,7 +29,6 @@ export default function App() {
         console.log("err", err);
       }
     };
-
     fetchUserData();
   }, []);
 
