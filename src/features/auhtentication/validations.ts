@@ -1,6 +1,6 @@
 interface Validations {
-  userName: (userName: string) => string;
-  password: (password: string) => string;
+  userName: (userName: string) => boolean;
+  password: (password: string) => boolean;
 }
 
 const validations: Validations = {
@@ -10,17 +10,17 @@ const validations: Validations = {
       userName.length < 2 ||
       userName.length > 15
     ) {
-      return "The user name is required and must contain at least 2 and max. 15 characters.";
+      return false;
     }
-    return "valid";
+    return true;
   },
   password: (password) => {
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[?!])[0-9a-zA-Z?!]{8,}$/;
     if (!passwordRegex.test(password)) {
-      return "The password must contain at least 1 number, 1 lowercase and uppercase character, one special character and be at least 8 characters long.";
+      return false;
     }
-    return "valid";
+    return true;
   },
 };
 

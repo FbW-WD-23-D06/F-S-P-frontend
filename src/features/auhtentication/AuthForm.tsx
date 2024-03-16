@@ -1,18 +1,18 @@
 import {
   IonButton,
+  IonIcon,
   IonInput,
   IonItem,
-  IonLabel,
   IonNote,
   IonSpinner,
 } from "@ionic/react";
+import axios from "axios";
+import { eye, lockClosed } from "ionicons/icons";
 import { FormEvent, useState } from "react";
+import { useAppContext } from "../../contexts/AppContext";
+import { endpoints } from "../../data/api";
 import useToastManager, { ToastInfo } from "../../hooks/useToastManager";
 import { validations } from "./validations";
-import { endpoints } from "../../data/api";
-import { useAppContext } from "../../contexts/AppContext";
-import axios from "axios";
-import { log } from "util";
 
 interface AuthFormProps {
   authType: "register" | "login";
@@ -22,10 +22,6 @@ export default function AuthForm({ authType }: AuthFormProps) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState({
-    userName: "",
-    password: "",
-  });
 
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastInfo, setToastInfo] = useState<ToastInfo>({
@@ -33,6 +29,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
     color: "",
   });
 
+  const [isPassword, setIsPassword] = useState(true);
   const { dispatchUser } = useAppContext();
 
   useToastManager({ toastInfo, setToastInfo, setIsToastVisible });
@@ -40,14 +37,10 @@ export default function AuthForm({ authType }: AuthFormProps) {
   const successSendAction = () => {
     setUsername("");
     setPassword("");
-    setErrorMessage({
-      userName: "",
-      password: "",
-    });
   };
 
-  const isUserNameValid = validations.userName(userName) === "valid";
-  const isPasswordValid = validations.password(password) === "valid";
+  const isUserNameValid = validations.userName(userName) === true;
+  const isPasswordValid = validations.password(password) === true;
 
   const isRegister = authType === "register";
   const isLogin = authType === "login";
@@ -78,7 +71,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
 
       const data = await response.data;
       console.log("🚀 ~ authUser ~ data:", data);
-      console.log('response.status:',response.status);
+      console.log("response.status:", response.status);
       if (response.status !== 200) {
         throw new Error(
           data.error?.message || data?.message || failedMessages[authType]
@@ -121,55 +114,61 @@ export default function AuthForm({ authType }: AuthFormProps) {
   const handleUserNameChange = (e: CustomEvent) => {
     const newUserName = e.detail.value;
     setUsername(newUserName);
-    const userNameValidation = validations.userName(newUserName);
-    setErrorMessage((prev) => ({
-      ...prev,
-      userName: userNameValidation,
-    }));
   };
 
   const handlePasswordChange = (e: CustomEvent) => {
     const newPassword = e.detail.value;
     setPassword(newPassword);
-    const passwordValidation = validations.password(newPassword);
-    setErrorMessage((prev) => ({
-      ...prev,
-      password: passwordValidation,
-    }));
   };
 
   return (
     <form onSubmit={hanldeAuthentication}>
       <IonItem>
-        <IonLabel position="floating">User Name</IonLabel>
         <IonInput
+          className={`${isUserNameValid && "ion-valid"} ${
+            !isUserNameValid && "ion-invalid"
+          }`}
+          label="User Name"
+          labelPlacement="floating"
           value={userName}
           onIonInput={handleUserNameChange}
-          clearInput
           minlength={2}
           maxlength={15}
+          required
           counter
+          helperText="The user name is required and must contain at least 2 and max. 15 characters."
+          errorText="Invalid user name"
         />
-        {errorMessage.userName !== "" && !isUserNameValid && (
-          <IonNote color="danger">{errorMessage.userName}</IonNote>
-        )}
       </IonItem>
+
       <IonItem>
-        <IonLabel position="floating">Password</IonLabel>
         <IonInput
-          type="password"
+          className={`${isPasswordValid && "ion-valid"} ${
+            !isPasswordValid && "ion-invalid"
+          }`}
+          label="Password"
+          labelPlacement="floating"
+          type={isPassword ? "password" : "text"}
           value={password}
           onIonInput={handlePasswordChange}
-          clearInput
           minlength={8}
-        />
-        {errorMessage.password !== "" && !isPasswordValid && (
-          <IonNote color="danger">{errorMessage.password}</IonNote>
-        )}
+          maxlength={30}
+          counter
+          required
+          helperText="The password must contain at least 1 number, 1 lowercase and uppercase character, one special character and be at least 8 characters long."
+          errorText="Invalid password"
+        >
+          <IonIcon
+            icon={isPassword ? eye : lockClosed}
+            slot="end"
+            onClick={() => setIsPassword(!isPassword)}
+          />
+        </IonInput>
       </IonItem>
+
       <IonButton
         disabled={
-          isToastVisible || loading || !isUserNameValid /*|| !isPasswordValid*/
+          isToastVisible || loading || !isUserNameValid || !isPasswordValid
         }
         type="submit"
         expand="block"
