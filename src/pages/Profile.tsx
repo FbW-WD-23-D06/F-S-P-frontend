@@ -4,18 +4,18 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonListHeader,
   IonPage,
-  IonText,
+  IonItemDivider,
 } from "@ionic/react";
-import Header from "../features/navigation/layout/Header";
 import { logOut } from "ionicons/icons";
-import { paths } from "../features/navigation/routing/paths";
 import { useAppContext } from "../contexts/AppContext";
 import { endpoints } from "../data/api";
+import UserName from "../features/auhtentication/UserName";
+import Header from "../features/navigation/layout/Header";
 
 export default function Profile() {
   const { userState, dispatchUser } = useAppContext();
-  console.log(userState.isLoggedIn);
 
   const handleLogout = async () => {
     try {
@@ -29,15 +29,15 @@ export default function Profile() {
     }
   };
 
-
   return (
     <IonPage>
       <Header title="Profile" />
       <IonContent fullscreen className="ion-padding-top">
-        <IonText>
-          <h2 className="ion-margin">{userState.userName}</h2>
-        </IonText>
         <IonList>
+          <UserName />
+        </IonList>
+        <IonList>
+          <IonItemDivider color="medium">Settings</IonItemDivider>
           {userState.isLoggedIn && (
             <IonItem button onClick={handleLogout}>
               <IonIcon icon={logOut} slot="start" />
