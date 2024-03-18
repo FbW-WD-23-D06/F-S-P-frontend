@@ -4,11 +4,10 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonPage,
   IonItemDivider,
 } from "@ionic/react";
-import { logOut } from "ionicons/icons";
+import { logOut, trash } from "ionicons/icons";
 import { useAppContext } from "../contexts/AppContext";
 import { endpoints } from "../data/api";
 import UserName from "../features/auhtentication/UserName";
@@ -29,6 +28,10 @@ export default function Profile() {
     }
   };
 
+  const handleDeleteUser = async () => {
+    console.log("delete user");
+  }
+
   return (
     <IonPage>
       <Header title="Profile" />
@@ -44,10 +47,10 @@ export default function Profile() {
               <IonLabel>Logout</IonLabel>
             </IonItem>
           )}
-             {userState.userName && (
-            <IonItem button onClick={handleLogout}>
-              <IonIcon icon={logOut} slot="start" />
-              <IonLabel>Logout</IonLabel>
+          {userState.id && (
+            <IonItem button onClick={handleDeleteUser}>
+              <IonIcon icon={trash} slot="start" />
+              <IonLabel>Delete User</IonLabel>
             </IonItem>
           )}
         </IonList>
