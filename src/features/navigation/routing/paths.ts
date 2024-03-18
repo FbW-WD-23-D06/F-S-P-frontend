@@ -5,5 +5,4 @@ const paths = {
   login: "/login",
 };
 
-
 export { paths };

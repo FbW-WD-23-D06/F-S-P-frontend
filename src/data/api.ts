@@ -4,6 +4,7 @@ const endpoints = {
   getAllPosts: `${BASE_URL}/posts`,
   register: `${BASE_URL}/users/register`,
   login: `${BASE_URL}/users/login`,
+  logout: `${BASE_URL}/users/logout`,
   getAuthUserData: `${BASE_URL}/users/auth-user-data`,
 };
 

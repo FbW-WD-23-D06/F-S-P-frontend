@@ -52,8 +52,8 @@ export default function AuthForm({ authType }: AuthFormProps) {
 
   const navigateAfterSuccess = () => {
     setTimeout(() => {
-      history.push(paths.profile);
-    }, 2000);
+      history.push(paths.posts);
+    }, 1000);
   };
 
   const authUser = async () => {
@@ -105,7 +105,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       setToastInfo({
         message: `${isRegister ? "Registration" : "Login"} successful!`,
         color: "success",
-        duration: 2000,
+        duration: 1500,
       });
       navigateAfterSuccess();
     } catch (err: any) {

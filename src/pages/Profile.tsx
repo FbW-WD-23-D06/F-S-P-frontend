@@ -11,13 +11,24 @@ import Header from "../features/navigation/layout/Header";
 import { logOut } from "ionicons/icons";
 import { paths } from "../features/navigation/routing/paths";
 import { useAppContext } from "../contexts/AppContext";
+import { endpoints } from "../data/api";
 
 export default function Profile() {
-  const { userState } = useAppContext();
+  const { userState, dispatchUser } = useAppContext();
+  console.log(userState.isLoggedIn);
 
-  const handleLogout = () => {
-    console.log("Logout");
+  const handleLogout = async () => {
+    try {
+      await fetch(endpoints.logout, {
+        method: "POST",
+        credentials: "include",
+      });
+      dispatchUser({ type: "logout" });
+    } catch (err) {
+      console.log("err", err);
+    }
   };
+
 
   return (
     <IonPage>
