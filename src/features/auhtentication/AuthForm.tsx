@@ -3,7 +3,6 @@ import {
   IonIcon,
   IonInput,
   IonItem,
-  IonNote,
   IonSpinner,
 } from "@ionic/react";
 import axios from "axios";
@@ -13,6 +12,8 @@ import { useAppContext } from "../../contexts/AppContext";
 import { endpoints } from "../../data/api";
 import useToastManager, { ToastInfo } from "../../hooks/useToastManager";
 import { validations } from "./validations";
+import { useHistory } from "react-router";
+import { paths } from "../navigation/routing/paths";
 
 interface AuthFormProps {
   authType: "register" | "login";
@@ -34,6 +35,8 @@ export default function AuthForm({ authType }: AuthFormProps) {
 
   useToastManager({ toastInfo, setToastInfo, setIsToastVisible });
 
+  const history = useHistory();
+
   const successSendAction = () => {
     setUsername("");
     setPassword("");
@@ -46,6 +49,12 @@ export default function AuthForm({ authType }: AuthFormProps) {
   const isLogin = authType === "login";
 
   const buttonText = isRegister ? "Register" : "Login";
+
+  const navigateAfterSuccess = () => {
+    setTimeout(() => {
+      history.push(paths.profile);
+    }, 2000);
+  };
 
   const authUser = async () => {
     const user = {
@@ -96,8 +105,9 @@ export default function AuthForm({ authType }: AuthFormProps) {
       setToastInfo({
         message: `${isRegister ? "Registration" : "Login"} successful!`,
         color: "success",
-        duration: 3000,
+        duration: 2000,
       });
+      navigateAfterSuccess();
     } catch (err: any) {
       console.error("Register user error:", err);
       setToastInfo({
@@ -167,7 +177,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       </IonItem>
 
       <IonButton
-      className="ion-margin"
+        className="ion-margin"
         disabled={
           isToastVisible || loading || !isUserNameValid || !isPasswordValid
         }
