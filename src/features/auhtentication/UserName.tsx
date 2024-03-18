@@ -44,8 +44,7 @@ export default function UserName() {
             onClick={handleCancelUpdateUserName}
             className="ion-padding-horizontal"
           >
-            <IonIcon icon={backspace} slot="start" />
-            Cancel
+            <IonIcon icon={backspace} />
           </IonButton>
           <IonButton
             color="success"
@@ -57,8 +56,7 @@ export default function UserName() {
             onClick={handleUpdateUserName}
             className="ion-padding-horizontal"
           >
-            <IonIcon icon={save} slot="start" />
-            Save
+            <IonIcon icon={save} />
           </IonButton>
         </IonItem>
       )}
