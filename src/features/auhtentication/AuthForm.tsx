@@ -167,6 +167,7 @@ export default function AuthForm({ authType }: AuthFormProps) {
       </IonItem>
 
       <IonButton
+      className="ion-margin"
         disabled={
           isToastVisible || loading || !isUserNameValid || !isPasswordValid
         }
