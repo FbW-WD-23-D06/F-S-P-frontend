@@ -1,13 +1,23 @@
-import { Route } from "react-router";
-import routes from "../routing/routes";
+import { Redirect, Route } from "react-router";
+import useRoutes from "../routing/routes";
 
-interface RoutesProps {}
-
-export default function Routes({}: RoutesProps) {
+export default function Routes() {
+  const routes = useRoutes();
   return (
     <>
       {routes.map((route) => (
-        <Route key={route.path} {...route} />
+        <Route
+          key={route.path}
+          path={route.path}
+          exact={route.exact}
+          render={() =>
+            route.isProtected && route.redirectTo ? (
+              <Redirect to={route.redirectTo} />
+            ) : (
+              <route.component />
+            )
+          }
+        />
       ))}
     </>
   );
