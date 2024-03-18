@@ -44,6 +44,12 @@ export default function Profile() {
               <IonLabel>Logout</IonLabel>
             </IonItem>
           )}
+             {userState.userName && (
+            <IonItem button onClick={handleLogout}>
+              <IonIcon icon={logOut} slot="start" />
+              <IonLabel>Logout</IonLabel>
+            </IonItem>
+          )}
         </IonList>
       </IonContent>
     </IonPage>
