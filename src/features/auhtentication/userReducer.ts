@@ -1,5 +1,6 @@
 import { initialState } from "../../contexts/AppContext";
 interface UserState {
+  id: string;
   userName: string;
   isLoggedIn: boolean;
 }

@@ -11,6 +11,7 @@ import UserReducer, {
 } from "../features/auhtentication/userReducer";
 
 export const initialState = {
+  id: "",
   userName: "",
   isLoggedIn: false,
 };
