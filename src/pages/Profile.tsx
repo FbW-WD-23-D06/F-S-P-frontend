@@ -8,12 +8,16 @@ import {
   IonText,
 } from "@ionic/react";
 import Header from "../features/navigation/layout/Header";
-import { logInOutline, personAdd } from "ionicons/icons";
+import { logOut } from "ionicons/icons";
 import { paths } from "../features/navigation/routing/paths";
 import { useAppContext } from "../contexts/AppContext";
 
 export default function Profile() {
   const { userState } = useAppContext();
+
+  const handleLogout = () => {
+    console.log("Logout");
+  };
 
   return (
     <IonPage>
@@ -23,14 +27,12 @@ export default function Profile() {
           <h2 className="ion-margin">{userState.userName}</h2>
         </IonText>
         <IonList>
-          <IonItem button routerLink={paths.register}>
-            <IonIcon icon={personAdd} slot="start" />
-            <IonLabel>Register</IonLabel>
-          </IonItem>
-          <IonItem button routerLink={paths.login}>
-            <IonIcon icon={logInOutline} slot="start" />
-            <IonLabel>Login</IonLabel>
-          </IonItem>
+          {userState.isLoggedIn && (
+            <IonItem button onClick={handleLogout}>
+              <IonIcon icon={logOut} slot="start" />
+              <IonLabel>Logout</IonLabel>
+            </IonItem>
+          )}
         </IonList>
       </IonContent>
     </IonPage>

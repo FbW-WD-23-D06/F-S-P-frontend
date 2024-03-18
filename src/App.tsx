@@ -1,5 +1,5 @@
 import { IonApp, setupIonicReact } from "@ionic/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Layout from "./features/navigation/layout/Layout";
 // import all styles and theme files from ionic and custom files
 import "./styles/styles_imports";
@@ -11,12 +11,10 @@ import { useAppContext } from "./contexts/AppContext";
 setupIonicReact();
 
 export default function App() {
-  const { dispatchUser, userState } = useAppContext();
+  const { dispatchUser } = useAppContext();
+  const [areUserDataFetched, setAreUserDataFetched] = useState(false);
 
   useEffect(() => {
-    if (!userState.isLoggedIn) {
-      return;
-    }
     const fetchUserData = async () => {
       try {
         const response = await axios.get(endpoints.getAuthUserData, {
@@ -27,6 +25,8 @@ export default function App() {
         dispatchUser({ type: "fetch-user-data", value: userData });
       } catch (err) {
         console.log("err", err);
+      } finally {
+        setAreUserDataFetched(true);
       }
     };
     fetchUserData();
@@ -34,9 +34,11 @@ export default function App() {
 
   return (
     <IonApp>
-      <IonReactRouter>
-        <Layout />
-      </IonReactRouter>
+      {areUserDataFetched && (
+        <IonReactRouter>
+          <Layout />
+        </IonReactRouter>
+      )}
     </IonApp>
   );
 }
