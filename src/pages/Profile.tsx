@@ -47,7 +47,7 @@ export default function Profile() {
               <IonLabel>Logout</IonLabel>
             </IonItem>
           )}
-          {userState.id && (
+          {userState._id && (
             <IonItem button onClick={handleDeleteUser}>
               <IonIcon icon={trash} slot="start" />
               <IonLabel>Delete User</IonLabel>

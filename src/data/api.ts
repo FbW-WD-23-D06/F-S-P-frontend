@@ -3,7 +3,7 @@ const productionMode = process.env.NODE_ENV === "production";
 
 const BASE_URL = developmentMode
   ? "http://localhost:8888"
-  : "https://post-master-server.onrender.com/";
+  : "https://post-master-server.onrender.com";
 
 const endpoints = {
   getAllPosts: `${BASE_URL}/posts`,
