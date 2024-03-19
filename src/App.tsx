@@ -34,7 +34,6 @@ export default function App() {
 
   return (
     <IonApp>
-      <h1>{process.env.NODE_ENV}</h1>
       {areUserDataFetched && (
         <IonReactRouter>
           <Layout />
