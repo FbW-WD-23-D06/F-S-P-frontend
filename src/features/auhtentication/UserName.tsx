@@ -40,7 +40,7 @@ export default function UserName() {
       }
       dispatchUser({ type: "fetch-user-data", value: data.updatedUser });
       setUserNameInputIsOpen(false);
-      setNewUserName(userState.userName);
+      setNewUserName(data.updatedUser.userName);
       return data;
     } catch (error) {
       console.error("🚀 ~ update username ~ error:", error);
@@ -62,7 +62,7 @@ export default function UserName() {
     } catch (err: any) {
       console.error("Update user name err:", err);
       setToastInfo({
-        message: err.message,
+        message: err.response.data.message,
         color: "danger",
         duration: 10000,
         buttons: "dismiss",
