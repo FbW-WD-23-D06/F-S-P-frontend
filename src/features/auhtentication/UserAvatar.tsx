@@ -14,7 +14,7 @@ export default function UserAvatar() {
       className="ion-margin"
       style={{ height: "44px", width: "44px" }}
     >
-      <img alt="Silhouette of a person's head" src={userState.avatarImg} />
+      <img alt="Silhouette of a person's head" src={userState.avatarImg.url} />
     </IonAvatar>
   );
 }

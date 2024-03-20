@@ -2,7 +2,10 @@ import { initialState } from "../../contexts/AppContext";
 interface UserState {
   _id: string;
   userName: string;
-  avatarImg: string;
+  avatarImg: {
+    url: string;
+    id: string;
+  };
   isLoggedIn: boolean;
 }
 

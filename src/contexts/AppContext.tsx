@@ -13,7 +13,10 @@ import UserReducer, {
 export const initialState = {
   _id: "",
   userName: "",
-  avatarImg: "",
+  avatarImg: {
+    url: "",
+    id: "",
+  },
   isLoggedIn: false,
 };
 

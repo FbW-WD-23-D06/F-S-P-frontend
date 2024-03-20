@@ -6,30 +6,44 @@ import { endpoints } from "../../data/api";
 import { useAppContext } from "../../contexts/AppContext";
 
 export default function UserAvatarUploader() {
-  const itemRef = useRef<HTMLIonItemElement>(null);
-  const { userState } = useAppContext();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { userState, dispatchUser } = useAppContext();
 
   const handleClickUploadAvatarImage = () => {
-    itemRef.current?.querySelector("input")?.click();
+    fileInputRef.current?.click();
   };
 
-  const handleUploadAvatarImage = (
+  const handleUploadAvatarImage = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
     console.log("🚀 ~ file", file);
     if (file) {
       const formData = new FormData();
-      formData.append("avatar", file);
-      axios.patch(`${endpoints.uploadAvatarImg}/${userState._id}`, formData);
-      console.log("formData:", formData);
+      formData.append("image", file);
+      try {
+        const response = await axios.patch(
+          `${endpoints.uploadAvatarImg}/${userState._id}`,
+          formData
+        );
+        const data = await response.data;
+        dispatchUser({ type: "fetch-user-data", value: data.updatedUser });
+      } catch (err) {
+        console.log("🚀 ~ err", err);
+      }
     }
   };
   return (
-    <IonItem ref={itemRef} onClick={handleClickUploadAvatarImage}>
+    <IonItem onClick={handleClickUploadAvatarImage}>
       <IonIcon slot="start" icon={cloudUpload} />
       <IonLabel>Update Avatar</IonLabel>
-      <input type="file" hidden onChange={handleUploadAvatarImage} />
+      <input
+        ref={fileInputRef}
+        type="file"
+        hidden
+        onChange={handleUploadAvatarImage}
+      />
     </IonItem>
   );
 }
