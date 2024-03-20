@@ -13,6 +13,7 @@ const endpoints = {
   login: `${BASE_URL}/users/login`,
   logout: `${BASE_URL}/users/logout`,
   getAuthUserData: `${BASE_URL}/users/auth-user-data`,
+  uploadAvatarImg: `${BASE_URL}/users/upload-avatar`,
 };
 
 export { BASE_URL, endpoints, developmentMode, productionMode};
