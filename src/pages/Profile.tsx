@@ -13,6 +13,7 @@ import { useAppContext } from "../contexts/AppContext";
 import { endpoints } from "../data/api";
 import UserName from "../features/auhtentication/UserName";
 import Header from "../features/navigation/layout/Header";
+import UserAvatarUploader from "../features/auhtentication/UserAvatarUploader";
 
 export default function Profile() {
   const { userState, dispatchUser } = useAppContext();
@@ -29,6 +30,10 @@ export default function Profile() {
     }
   };
 
+  const handledeleteUser = async () => {
+    console.log("delete user");
+  };
+
   return (
     <IonPage>
       <Header title="Profile" />
@@ -38,16 +43,15 @@ export default function Profile() {
         </IonList>
         <IonList>
           <IonItemDivider color="medium">Settings</IonItemDivider>
-          {userState.isLoggedIn && (
-            <IonItem button onClick={handleLogout}>
+          <UserAvatarUploader />
+          <IonItem button onClick={handleLogout}>
+            <IonIcon icon={logOut} slot="start" />
+            <IonLabel>Logout</IonLabel>
+          </IonItem>
+          {userState.userName && (
+            <IonItem button onClick={handledeleteUser}>
               <IonIcon icon={logOut} slot="start" />
-              <IonLabel>Logout</IonLabel>
-            </IonItem>
-          )}
-             {userState.userName && (
-            <IonItem button onClick={handleLogout}>
-              <IonIcon icon={logOut} slot="start" />
-              <IonLabel>Logout</IonLabel>
+              <IonLabel>Delete User</IonLabel>
             </IonItem>
           )}
         </IonList>
