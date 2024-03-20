@@ -21,7 +21,7 @@ export default function UserAvatarUploader() {
     if (file) {
       const formData = new FormData();
       formData.append("avatar", file);
-      axios.post(`${endpoints.uploadAvatarImg}/${userState._id}`, formData);
+      axios.patch(`${endpoints.uploadAvatarImg}/${userState._id}`, formData);
       console.log("formData:", formData);
     }
   };
