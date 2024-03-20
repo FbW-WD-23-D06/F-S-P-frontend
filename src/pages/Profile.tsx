@@ -4,11 +4,10 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonPage,
   IonItemDivider,
 } from "@ionic/react";
-import { logOut } from "ionicons/icons";
+import { logOut, trash } from "ionicons/icons";
 import { useAppContext } from "../contexts/AppContext";
 import { endpoints } from "../data/api";
 import UserName from "../features/auhtentication/UserName";
@@ -48,7 +47,7 @@ export default function Profile() {
             <IonIcon icon={logOut} slot="start" />
             <IonLabel>Logout</IonLabel>
           </IonItem>
-          {userState.userName && (
+          {userState._id && (
             <IonItem button onClick={handledeleteUser}>
               <IonIcon icon={logOut} slot="start" />
               <IonLabel>Delete User</IonLabel>
